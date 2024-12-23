@@ -14,10 +14,6 @@ constructor(page: Page){
     async navigation(){
         await this.page.goto('/index');
     }
-
-    async clickButton(anyBtn: Locator){
-        await anyBtn.click();
-    }
 }
 
 export default HomePage;

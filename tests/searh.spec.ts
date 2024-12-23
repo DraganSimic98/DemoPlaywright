@@ -12,10 +12,16 @@ test.beforeEach(async ({ page }) => {
     await homePage.navigation();
 })
 
-
     test('Search', async ({ page }) => {
-        await homePage.clickButton(homePage.searchButton);
+        await homePage.searchButton.click();
         await expect(page).toHaveURL(/.*search/);
+        const searchInput = page.getByPlaceholder('what are you looking for?');
+
+        await searchInput.fill('Serbia');
+        await searchInput.press('Enter');
+       
+        expect(page.url()).toContain('search?q=Serbia')
+       
     })
     
 })
