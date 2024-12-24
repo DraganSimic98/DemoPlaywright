@@ -11,7 +11,6 @@ test.beforeEach(async ({ page }) => {
     searchPage = new SearchPage(page);
     await homePage.navigation();
 })
-
     test('Search', async ({ page }) => {
         await homePage.searchButton.click();
         await expect(page).toHaveURL(/.*search/);
@@ -23,5 +22,5 @@ test.beforeEach(async ({ page }) => {
         expect(page.url()).toContain('search?q=Serbia')
        
     })
-    
+
 })
