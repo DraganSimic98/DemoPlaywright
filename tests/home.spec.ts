@@ -13,10 +13,11 @@ test.describe('Verify the URL and the logo', () => {
         
         await expect(homePage.logo).toBeVisible();
         expect(page.url()).toContain('cricket');
+        expect(page).toHaveURL(/cricket/);
     })
-
     
-    test('Verification of Menu Tabs text & Links', async ({ page }) => {
+    test('Verification of Menu Tabs text', async ({ page }) => {
+        const navItems = homePage.navItems;
         const expectedNames = [
             "Matches",
             "Rankings",
@@ -28,16 +29,25 @@ test.describe('Verify the URL and the logo', () => {
             "Shop"
         ];
 
-        const navItems = homePage.navItems;
-       
-        console.log(navItems);
-        
         for(const element of await navItems.elementHandles()){
             console.log(await element.textContent());
         }
 
-        expect(await homePage.getNavText()).toEqual(expectedNames);
+        expect(await homePage.getNavText()).toEqual(expectedNames);  
+    })
+
+    test('Verify new tab and assert title', async ({ page }) => {
+       
+        //Click on the link and wait for the new tab to get triggered
+        const [newPage] = await Promise.all([
+            page.waitForEvent('load'),
+            page.getByRole('link', {name: 'Matches'}).click()
+        ]);
         
+        await newPage.waitForLoadState();
+
+        await expect(newPage).toHaveTitle('Cricket Fixtures and Results | ICC');
+        await newPage.close();
     })
     
 })
