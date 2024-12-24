@@ -14,5 +14,30 @@ test.describe('Verify the URL and the logo', () => {
         await expect(homePage.logo).toBeVisible();
         expect(page.url()).toContain('cricket');
     })
+
+    
+    test('Verification of Menu Tabs text & Links', async ({ page }) => {
+        const expectedNames = [
+            "Matches",
+            "Rankings",
+            "News",
+            "Videos",
+            "Teams",
+            "Awards",
+            "Travel",
+            "Shop"
+        ];
+
+        const navItems = homePage.navItems;
+       
+        console.log(navItems);
+        
+        for(const element of await navItems.elementHandles()){
+            console.log(await element.textContent());
+        }
+
+        expect(await homePage.getNavText()).toEqual(expectedNames);
+        
+    })
     
 })
